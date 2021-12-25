@@ -12,7 +12,7 @@ class GOSet < Set
   end
 
   def load_species(species_name)
-    JSON.parse(File.read("analyses/treebuilding/results/sets/with_ancestors/#{species_name}.json")).map(&:to_sym).to_set
+    JSON.parse(File.read("analyses/treebuilding/results/sets/with_ancestors/#{species_name}.json"))["A"].map(&:to_sym).to_set
   end
 
   def output(print_name = true)

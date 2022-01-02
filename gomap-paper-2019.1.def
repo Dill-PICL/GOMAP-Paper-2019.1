@@ -1,32 +1,43 @@
 # Recipe to build the singularity container used to make this paper reproducible
 # Instead of building the container yourself, best pull it from https://cloud.sylabs.io/library/merlin/default/gomap-paper-2019.1
-BootStrap: library
-From: ubuntu:18.04
+Bootstrap: library
+From: ubuntu:20.04
 
 %post
   # Add universe repository
   echo "deb http://us.archive.ubuntu.com/ubuntu bionic universe" >> /etc/apt/sources.list
   apt -y update
   # Install utilites
-  apt install -y wget vim libcurl4-openssl-dev libxml2-dev libssl-dev
-  # Install crystal
-  apt-key adv --keyserver hkp://keys.gnupg.net:80 --recv-keys 09617FD37CC06B54
-  echo "deb https://dist.crystal-lang.org/apt crystal main" > /etc/apt/sources.list.d/crystal.list
-  apt -y update
-  apt -y install crystal libyaml-dev libgmp-dev libreadline-dev
-  # Install Python
-  apt install -y python python-pip
-  pip install biopython
+  apt install -y wget vim curl libcurl4-openssl-dev libxml2-dev libssl-dev libpng-dev build-essential
+  # Install Crystal
+  curl -fsSL https://crystal-lang.org/install.sh | bash
+  apt -y install libyaml-dev libgmp-dev libreadline-dev
   # Install Ruby
   apt install -y ruby
   gem install rake
-  # Install R, LaTeX, and pandoc
-  apt install -y r-base-core texlive texlive-latex-extra
-  wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
-  apt install -y ./pandoc-2.7.3-1-amd64.deb
-  ## Install RMarkdown
-  R --slave -e 'install.packages(c("rmarkdown", "kableExtra", "bookdown", "rticles"))'
+  # Install R
+  # update indices
+  apt update -qq
+  # install two helper packages we need
+  apt install -y --no-install-recommends software-properties-common dirmngr
+  # add the signing key (by Michael Rutter) for these repos
+  # To verify key, run gpg --show-keys /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc 
+  # Fingerprint: 298A3A825C0D65DFD57CBB651716619E084DAB9
+  wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+  # add the R 4.0 repo from CRAN -- adjust 'focal' to 'groovy' or 'bionic' as needed
+  add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+  apt install -y --no-install-recommends r-base
+  # Install R libraries (ggplot2, ComplexHeatmap, data.table, circlize, stringr, tools)
+  R -e 'install.packages(c("ggplot2", "data.table", "stringr", "tools", "circlize", "BiocManager"))'
+  R -e 'BiocManager::install("ComplexHeatmap")'
+  # Install PHYLIP
+  apt install -y phylip
+  # Install newick-utils
+  wget http://web.archive.org/web/20190914014444/http://cegg.unige.ch/pub/newick-utils-1.6-Linux-x86_64-disabled-extra.tar.gz
+  tar -xzf newick-utils-1.6-Linux-x86_64-disabled-extra.tar.gz
+  mv newick-utils-1.6/src/nw_* /usr/local/bin
 
+  
   # Clean
   apt-get clean
 
@@ -38,3 +49,4 @@ From: ubuntu:18.04
 
 %labels
   Author Thyra
+

@@ -76,7 +76,7 @@ end
 def run_phylip(tree_name, phylip_bin, outtree_name, script, taxon_map = nil)
   Dir.chdir("analyses/treebuilding/results/trees/#{tree_name}") do
     File.write("phylip.in", script)
-    system("#{phylip_bin} < phylip.in")
+    system("phylip #{phylip_bin} < phylip.in")
     if taxon_map
       # Rename species back to original names
       newick = File.read("outtree")

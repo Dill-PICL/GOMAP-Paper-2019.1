@@ -15,7 +15,7 @@ busco_plot <- function(df, filepath) {
   ## Scatter Plot Script
   p1 <- ggplot(df, aes(fill=Category, y=BUSCO_Score, x=Genomes)) + geom_bar(position= position_stack(reverse = TRUE), stat="identity") + 
     xlab("Genomes") + ylab("Percentage of BUSCO Genes") + 
-    theme(plot.title = element_text(hjust = 0.5), axis.text.x = element_text(angle = 30 , size = 6, vjust = 0.95 , hjust = 0.95), legend.title = element_text( size=5), legend.text=element_text(size=5)) + 
+    theme(plot.title = element_text(hjust = 0.5), axis.text.x = element_text(angle = 30 , size = 10, vjust = 0.95 , hjust = 0.95), legend.title = element_text( size=8), legend.text=element_text(size=8)) + 
     scale_fill_manual(values = cbPalette) + theme(panel.background = element_blank()) + guides(fill = guide_legend(reverse = TRUE)) + 
     scale_x_discrete("Genomes", labels=mylables)
   pdf(filepath, 9, 6)

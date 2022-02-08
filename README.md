@@ -31,7 +31,7 @@ Every folder contains an individual README file with more information which you 
 
 Reproducing this paper or using part of the software
 ------------
-To make it all easy for you, we have bundled everything that's required to run our analyses in a [singularity container](https://sylabs.io/).
+To make it all easy for you, we have bundled everything that's required to run our analyses in a [singularity container](https://sylabs.io/) (now renamed to Apptainer).
 You may also just want to use our software for your own data or play around with our data to explore it for yourself.
 Please [install singularity](https://sylabs.io/guides/3.3/user-guide/quick_start.html#quick-installation-steps) and then follow these steps:
 

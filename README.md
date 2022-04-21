@@ -1,7 +1,7 @@
 GOMAP-Paper-2019.1
 ==============================
 
-Data, code, and results for our paper *Standardized genome-wide function prediction enables comparative functional genomics: a new application area for Gene Ontologies in plants* (https://doi.org/10.1101/2021.04.25.441366).
+Data, code, and results for our paper *Standardized genome-wide function prediction enables comparative functional genomics: a new application area for Gene Ontologies in plants* (https://doi.org/10.1093/gigascience/giac023).
 If you use any of our code or results in a scientific publication, we would be grateful if you cite the paper.
 
 Repository Organization
